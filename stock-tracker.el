@@ -32,12 +32,12 @@
    :success (cl-function
 	     (lambda (&key data &allow-other-keys)
 	       (when data
-		 (setq header-line-format (format "%s: $%s" header-line-format (cdr (car (cdr (car (cdr (car (cdr data))))))))))))))
+		 (setq global-mode-string (format "%s: $%s" global-mode-string (cdr (car (cdr (car (cdr (car (cdr data))))))))))))))
 
 (defun print-stock-to-header (stock_symbol)
   "Prints the current price of a stock symbol to the header bar"
   (progn
-    (setq header-line-format stock_symbol)
+    (setq global-mode-string (format "%s" stock_symbol))
     (get-stock-price stock_symbol)))
 
 (defun show-fit-stock-price ()
@@ -73,4 +73,12 @@
   :group 'applications
   :prefix "stock-tracker-")
 
+
+;;;###autoload
+(define-minor-mode stock-tracker-global-mode
+  "Add stock tracker to the mode line.
+  :global t
+  :group 'stock-tracker
+  (setq stock_tracker_symbol_num 0)
+  (start-stock-tracker))
 (provide 'stock-tracker)
