@@ -62,7 +62,7 @@
   "Timer 'interrupt' function"
   (print-stock-to-header
    (nth
-    (if ( > stock_symbol_num ( - (length stock_tracker_symbols) 1))
+    (if ( >= stock_symbol_num ( - (length stock_tracker_symbols) 1))
 	(setq stock_symbol_num 0)
       (setq stock_symbol_num (+ stock_symbol_num 1))) stock_tracker_symbols))
    )
