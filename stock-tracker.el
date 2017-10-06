@@ -7,6 +7,7 @@
 (defvar stock_symbol_num 0)
 (defvar stock-change-time 60)
 (defvar stock_tracker_symbols ())
+(defvar stock-tracker-buy-prices ())
 (defvar stock-tracker-timer nil)
 (defvar stock-tracker-api-key nil)
 
@@ -40,6 +41,10 @@
     (setq global-mode-string (format "%s" stock_symbol))
     (get-stock-price stock_symbol)))
 
+(defun print-buy-price-to-header ()
+  "Prints the current stock's buy price to the mode section"
+  (setq global-mode-string (format "%s ($%s)" global-mode-string (nth stock_symbol_num stock-tracker-buy-prices))))
+
 (defun show-fit-stock-price ()
   "Shows the fitbit stock price."
   (interactive)
@@ -60,12 +65,13 @@
 ;; Assumes stock_symbol_num is already initialized
 (defun stock-tracker-timer-handler ()
   "Timer 'interrupt' function"
-  (print-stock-to-header
-   (nth
-    (if ( >= stock_symbol_num ( - (length stock_tracker_symbols) 1))
-	(setq stock_symbol_num 0)
-      (setq stock_symbol_num (+ stock_symbol_num 1))) stock_tracker_symbols))
-   )
+  (progn
+    (print-stock-to-header
+     (nth
+      (if ( >= stock_symbol_num ( - (length stock_tracker_symbols) 1))
+	  (setq stock_symbol_num 0)
+	(setq stock_symbol_num (+ stock_symbol_num 1))) stock_tracker_symbols))
+    (print-buy-price-to-header)))
 
 ;;;###autoload
 (defgroup stock-tracker nil
