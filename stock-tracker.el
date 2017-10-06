@@ -76,9 +76,10 @@
 
 ;;;###autoload
 (define-minor-mode stock-tracker-global-mode
-  "Add stock tracker to the mode line.
+  "Add stock tracker to the mode line."
   :global t
   :group 'stock-tracker
   (setq stock_tracker_symbol_num 0)
   (start-stock-tracker))
+
 (provide 'stock-tracker)
