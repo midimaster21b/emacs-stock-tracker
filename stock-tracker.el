@@ -10,12 +10,14 @@
 (defvar stock-tracker-buy-prices ())
 (defvar stock-tracker-timer nil)
 (defvar stock-tracker-api-key nil)
+(defvar stock-tracker-init nil) ; Determines whether or not the mode is initialized
 
 
 (defun start-stock-tracker ()
   "Start the stock tracker program"
   (interactive) ;; make accessible while in editor modes
   (start-stock-timer)
+  (setq stock-tracker-init t)
   )
 
 (defun stop-stock-tracker ()
@@ -60,6 +62,7 @@
 (defun kill-stock-timer ()
   "Kill the stock timer"
   (cancel-timer stock-tracker-timer)
+  (setq stock-tracker-init nil)
   )
 
 ;; Assumes stock_symbol_num is already initialized
@@ -86,6 +89,6 @@
   :global t
   :group 'stock-tracker
   (setq stock_tracker_symbol_num 0)
-  (start-stock-tracker))
+  (if (and (boundp 'stock-tracker-init) stock-tracker-init) (stop-stock-tracker) (start-stock-tracker)))
 
 (provide 'stock-tracker)
